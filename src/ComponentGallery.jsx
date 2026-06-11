@@ -6,13 +6,16 @@ import { hero18Layouts } from './data/hero18';
 import { grid33Layouts } from './data/grid33';
 import { properLayouts } from './data/properLayout';
 import { designerGuideData } from './data/designerGuide';
+import { mobileLayouts } from './data/mobileLayouts';
+import { MobileViewport } from './components/Wireframes';
 
 // --- DATA: THE LAYOUT ORGANISMS ---
 const layoutData = [
     ...unique11Layouts,
     ...hero18Layouts,
     ...grid33Layouts,
-    ...properLayouts
+    ...properLayouts,
+    ...mobileLayouts
 ];
 
 export default function App() {
@@ -55,10 +58,10 @@ export default function App() {
         
         <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
           {viewMode === 'layouts' ? (
-            ['11 Unique Sections', 'Hero Sections', 'Standard Grids', 'Page Blocks'].map(category => (
+            ['11 Unique Sections', 'Hero Sections', 'Standard Grids', 'Mobile Heroes', 'Mobile Grids', 'Page Blocks'].map(category => (
                <div key={category} className="mb-8">
                   <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${category.startsWith('Mobile') ? 'bg-indigo-500' : 'bg-blue-500'}`}></span>
                     {category}
                   </h2>
                   <nav className="space-y-1">
@@ -94,7 +97,7 @@ export default function App() {
                </div>
             ))
           ) : (
-            ['The Why', 'The How', 'The What', 'The Proof', 'The Future'].map(category => (
+            ['The Why', 'The How', 'The What', 'The Workflow', 'The Proof', 'The Future', 'Mobile Strategy'].map(category => (
               <div key={category} className="mb-8">
                 <h2 className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4 px-3 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
@@ -199,7 +202,13 @@ export default function App() {
                                     <div className="mx-auto text-[10px] font-black text-gray-300 tracking-widest uppercase">Canvas Preview</div>
                                 </div>
                                 <div className="p-1">
-                                  {activeLayout.component()}
+                                  {activeLayout.id.startsWith('Mob_') ? (
+                                    <MobileViewport>
+                                      {activeLayout.component()}
+                                    </MobileViewport>
+                                  ) : (
+                                    activeLayout.component()
+                                  )}
                                 </div>
                             </div>
                         )}
